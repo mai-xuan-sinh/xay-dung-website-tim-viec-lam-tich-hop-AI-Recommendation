@@ -4,6 +4,7 @@
 
 export const itJobs = [
   // ========== FRONTEND DEVELOPER ==========
+  // JOB NỔI BẬT 1
   {
     id: "IT-FE-001",
     title: "Frontend Developer (React)",
@@ -35,6 +36,39 @@ export const itJobs = [
     postedDate: "2024-03-15",
     deadline: "2024-04-15"
   },
+  // JOB NỔI BẬT 2 - Frontend
+  {
+    id: "IT-FE-004",
+    title: "Senior Frontend Developer (Next.js)",
+    company: "Viettel",
+    location: "Liên Chiểu",
+    salary: "20-30M",
+    type: "Full-time",
+    experience: "3-5 năm",
+    level: "Senior",
+    description: "Xây dựng ứng dụng web với Next.js và TypeScript",
+    requirements: [
+      "Thành thạo Next.js và TypeScript",
+      "Kinh nghiệm với TailwindCSS",
+      "Hiểu về SSR và SSG",
+      "Tối ưu SEO"
+    ],
+    benefits: [
+      "Lương cao",
+      "Bảo hiểm gia đình",
+      "Cổ phiếu thưởng",
+      "Đào tạo chuyên sâu"
+    ],
+    skills: ["Next.js", "TypeScript", "TailwindCSS", "React"],
+    logo: "⚡",
+    hot: true,
+    category: "it",
+    subCategory: "frontend",
+    featured: true,
+    postedDate: "2024-03-16",
+    deadline: "2024-04-16"
+  },
+  // JOB PHỔ THÔNG
   {
     id: "IT-FE-002",
     title: "Frontend Developer (Vue.js)",
@@ -65,6 +99,7 @@ export const itJobs = [
     postedDate: "2024-03-10",
     deadline: "2024-04-10"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-FE-003",
     title: "Frontend Developer (Angular)",
@@ -88,15 +123,16 @@ export const itJobs = [
     ],
     skills: ["Angular", "TypeScript", "RxJS", "NgRx"],
     logo: "🔺",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "frontend",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-12",
     deadline: "2024-04-12"
   },
 
   // ========== BACKEND DEVELOPER ==========
+  // JOB NỔI BẬT 3
   {
     id: "IT-BE-001",
     title: "Backend Developer (Node.js)",
@@ -127,6 +163,39 @@ export const itJobs = [
     postedDate: "2024-03-14",
     deadline: "2024-04-14"
   },
+  // JOB NỔI BẬT 4 - Backend
+  {
+    id: "IT-BE-004",
+    title: "Senior Backend Developer (Go)",
+    company: "VinAI",
+    location: "Ngũ Hành Sơn",
+    salary: "25-35M",
+    type: "Full-time",
+    experience: "3-5 năm",
+    level: "Senior",
+    description: "Phát triển hệ thống high-performance với Golang",
+    requirements: [
+      "Thành thạo Golang",
+      "Kinh nghiệm với gRPC và microservices",
+      "Hiểu về hệ thống phân tán",
+      "Kinh nghiệm với Kafka/RabbitMQ"
+    ],
+    benefits: [
+      "Lương rất cao",
+      "Bảo hiểm gia đình",
+      "Cổ phiếu",
+      "Cơ hội onsite nước ngoài"
+    ],
+    skills: ["Golang", "gRPC", "Microservices", "Kafka"],
+    logo: "🐹",
+    hot: true,
+    category: "it",
+    subCategory: "backend",
+    featured: true,
+    postedDate: "2024-03-17",
+    deadline: "2024-04-17"
+  },
+  // JOB PHỔ THÔNG
   {
     id: "IT-BE-002",
     title: "Backend Developer (Python)",
@@ -157,6 +226,7 @@ export const itJobs = [
     postedDate: "2024-03-08",
     deadline: "2024-04-08"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-BE-003",
     title: "Backend Developer (Java)",
@@ -180,15 +250,16 @@ export const itJobs = [
     ],
     skills: ["Java", "Spring Boot", "Microservices", "Oracle"],
     logo: "☕",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "backend",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-11",
     deadline: "2024-04-11"
   },
 
   // ========== FULLSTACK DEVELOPER ==========
+  // JOB NỔI BẬT 5
   {
     id: "IT-FS-001",
     title: "Fullstack Developer (MERN)",
@@ -219,6 +290,39 @@ export const itJobs = [
     postedDate: "2024-03-13",
     deadline: "2024-04-13"
   },
+  // JOB NỔI BẬT 6 - Fullstack
+  {
+    id: "IT-FS-003",
+    title: "Fullstack Developer (Java/React)",
+    company: "FPT Software",
+    location: "Hòa Vang",
+    salary: "20-30M",
+    type: "Full-time",
+    experience: "3-5 năm",
+    level: "Senior",
+    description: "Phát triển hệ thống doanh nghiệp với Spring Boot và React",
+    requirements: [
+      "Thành thạo Java Spring Boot",
+      "Kinh nghiệm với React",
+      "Hiểu về microservices",
+      "Tiếng Anh giao tiếp"
+    ],
+    benefits: [
+      "Lương cao",
+      "Bảo hiểm gia đình",
+      "Cơ hội onsite",
+      "Đào tạo chuyên sâu"
+    ],
+    skills: ["Java", "Spring Boot", "React", "Microservices"],
+    logo: "☕",
+    hot: true,
+    category: "it",
+    subCategory: "fullstack",
+    featured: true,
+    postedDate: "2024-03-18",
+    deadline: "2024-04-18"
+  },
+  // JOB PHỔ THÔNG
   {
     id: "IT-FS-002",
     title: "Fullstack Developer (PHP)",
@@ -251,6 +355,39 @@ export const itJobs = [
   },
 
   // ========== MOBILE DEVELOPER ==========
+  // JOB NỔI BẬT 7 - Mobile
+  {
+    id: "IT-MB-005",
+    title: "Senior Mobile Developer (Flutter)",
+    company: "GAMELOFT",
+    location: "Sơn Trà",
+    salary: "20-30M",
+    type: "Full-time",
+    experience: "3-5 năm",
+    level: "Senior",
+    description: "Phát triển ứng dụng game mobile với Flutter",
+    requirements: [
+      "Thành thạo Flutter và Dart",
+      "Kinh nghiệm với game development",
+      "Hiểu về animation và performance",
+      "Đã có game trên CH Play/App Store"
+    ],
+    benefits: [
+      "Lương cao",
+      "Môi trường game",
+      "Thưởng theo sản phẩm",
+      "Du lịch hàng năm"
+    ],
+    skills: ["Flutter", "Dart", "Game Development", "Animation"],
+    logo: "🎮",
+    hot: true,
+    category: "it",
+    subCategory: "mobile",
+    featured: true,
+    postedDate: "2024-03-19",
+    deadline: "2024-04-19"
+  },
+  // JOB PHỔ THÔNG
   {
     id: "IT-MB-001",
     title: "Mobile Developer (Flutter)",
@@ -274,13 +411,14 @@ export const itJobs = [
     ],
     skills: ["Flutter", "Dart", "Firebase", "REST API"],
     logo: "📱",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "mobile",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-12",
     deadline: "2024-04-12"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-MB-002",
     title: "Mobile Developer (React Native)",
@@ -304,13 +442,14 @@ export const itJobs = [
     ],
     skills: ["React Native", "Redux", "JavaScript", "iOS/Android"],
     logo: "📱",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "mobile",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-10",
     deadline: "2024-04-10"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-MB-003",
     title: "Mobile Developer (iOS)",
@@ -334,13 +473,14 @@ export const itJobs = [
     ],
     skills: ["Swift", "iOS", "UIKit", "SwiftUI"],
     logo: "🍎",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "mobile",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-14",
     deadline: "2024-04-14"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-MB-004",
     title: "Mobile Developer (Android)",
@@ -373,6 +513,7 @@ export const itJobs = [
   },
 
   // ========== UI/UX DESIGNER ==========
+  // JOB PHỔ THÔNG
   {
     id: "IT-UX-001",
     title: "UI/UX Designer",
@@ -403,6 +544,7 @@ export const itJobs = [
     postedDate: "2024-03-08",
     deadline: "2024-04-08"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-UX-002",
     title: "UI/UX Designer (Senior)",
@@ -426,15 +568,16 @@ export const itJobs = [
     ],
     skills: ["Design System", "User Research", "Figma", "Team Lead"],
     logo: "🎯",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "uiux",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-13",
     deadline: "2024-04-13"
   },
 
   // ========== QA/TESTER ==========
+  // JOB PHỔ THÔNG
   {
     id: "IT-QA-001",
     title: "QA/Tester",
@@ -465,6 +608,7 @@ export const itJobs = [
     postedDate: "2024-03-09",
     deadline: "2024-04-09"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-QA-002",
     title: "QA Automation",
@@ -488,15 +632,48 @@ export const itJobs = [
     ],
     skills: ["Selenium", "Cypress", "JavaScript", "CI/CD"],
     logo: "🤖",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "qa",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-12",
     deadline: "2024-04-12"
   },
 
   // ========== DEVOPS ==========
+  // JOB NỔI BẬT 8 - DevOps
+  {
+    id: "IT-DO-003",
+    title: "Senior DevOps Engineer (AWS/K8s)",
+    company: "Viettel",
+    location: "Liên Chiểu",
+    salary: "25-35M",
+    type: "Full-time",
+    experience: "3-5 năm",
+    level: "Senior",
+    description: "Quản lý hạ tầng cloud và Kubernetes quy mô lớn",
+    requirements: [
+      "Thành thạo AWS (EC2, EKS, S3)",
+      "Kinh nghiệm với Kubernetes",
+      "Hiểu về Infrastructure as Code (Terraform)",
+      "Kinh nghiệm CI/CD (Jenkins, GitLab CI)"
+    ],
+    benefits: [
+      "Lương cao",
+      "Bảo hiểm gia đình",
+      "Cổ phiếu",
+      "Đào tạo chuyên sâu"
+    ],
+    skills: ["AWS", "Kubernetes", "Terraform", "CI/CD"],
+    logo: "☁️",
+    hot: true,
+    category: "it",
+    subCategory: "devops",
+    featured: true,
+    postedDate: "2024-03-21",
+    deadline: "2024-04-21"
+  },
+  // JOB PHỔ THÔNG
   {
     id: "IT-DO-001",
     title: "DevOps Engineer",
@@ -520,13 +697,14 @@ export const itJobs = [
     ],
     skills: ["Docker", "Kubernetes", "AWS", "CI/CD"],
     logo: "🚀",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "devops",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-14",
     deadline: "2024-04-14"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-DO-002",
     title: "DevOps Engineer (Junior)",
@@ -559,6 +737,7 @@ export const itJobs = [
   },
 
   // ========== DATA ANALYST ==========
+  // JOB PHỔ THÔNG
   {
     id: "IT-DA-001",
     title: "Data Analyst",
@@ -582,13 +761,14 @@ export const itJobs = [
     ],
     skills: ["SQL", "Python", "Power BI", "Excel"],
     logo: "📊",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "data",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-11",
     deadline: "2024-04-11"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-DA-002",
     title: "Data Analyst (Senior)",
@@ -612,15 +792,48 @@ export const itJobs = [
     ],
     skills: ["Python", "SQL", "Machine Learning", "Team Lead"],
     logo: "📈",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "data",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-13",
     deadline: "2024-04-13"
   },
 
   // ========== AI ENGINEER ==========
+  // JOB NỔI BẬT 9 - AI
+  {
+    id: "IT-AI-003",
+    title: "Senior AI Engineer (Computer Vision)",
+    company: "VinAI",
+    location: "Ngũ Hành Sơn",
+    salary: "25-35M",
+    type: "Full-time",
+    experience: "3-5 năm",
+    level: "Senior",
+    description: "Phát triển các mô hình Computer Vision cho sản phẩm AI",
+    requirements: [
+      "Thành thạo Python và PyTorch/TensorFlow",
+      "Kinh nghiệm với Computer Vision",
+      "Hiểu về CNN, YOLO, Detectron2",
+      "Có sản phẩm AI thực tế"
+    ],
+    benefits: [
+      "Lương rất cao",
+      "Môi trường nghiên cứu",
+      "Cơ hội công bố paper",
+      "Cổ phiếu"
+    ],
+    skills: ["Python", "PyTorch", "Computer Vision", "Deep Learning"],
+    logo: "👁️",
+    hot: true,
+    category: "it",
+    subCategory: "ai",
+    featured: true,
+    postedDate: "2024-03-20",
+    deadline: "2024-04-20"
+  },
+  // JOB PHỔ THÔNG
   {
     id: "IT-AI-001",
     title: "AI Engineer",
@@ -644,13 +857,14 @@ export const itJobs = [
     ],
     skills: ["Python", "TensorFlow", "Machine Learning", "Deep Learning"],
     logo: "🤖",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "ai",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-12",
     deadline: "2024-04-12"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-AI-002",
     title: "AI Engineer (Junior)",
@@ -683,6 +897,7 @@ export const itJobs = [
   },
 
   // ========== IT SUPPORT ==========
+  // JOB PHỔ THÔNG
   {
     id: "IT-IS-001",
     title: "IT Support",
@@ -713,6 +928,7 @@ export const itJobs = [
     postedDate: "2024-03-08",
     deadline: "2024-04-08"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-IS-002",
     title: "IT Support (Senior)",
@@ -736,15 +952,16 @@ export const itJobs = [
     ],
     skills: ["System Admin", "Network", "Security", "Team Management"],
     logo: "🔧",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "support",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-11",
     deadline: "2024-04-11"
   },
 
   // ========== SYSTEM ADMIN ==========
+  // JOB PHỔ THÔNG
   {
     id: "IT-SA-001",
     title: "System Administrator",
@@ -775,6 +992,7 @@ export const itJobs = [
     postedDate: "2024-03-10",
     deadline: "2024-04-10"
   },
+  // JOB PHỔ THÔNG
   {
     id: "IT-SA-002",
     title: "System Administrator (Senior)",
@@ -798,43 +1016,28 @@ export const itJobs = [
     ],
     skills: ["Linux", "Cloud", "Automation", "Security"],
     logo: "⚙️",
-    hot: true,
+    hot: false,
     category: "it",
     subCategory: "sysadmin",
-    featured: true,
+    featured: false,
     postedDate: "2024-03-13",
     deadline: "2024-04-13"
   }
 ];
 
 // ===========================================
-// CÁC HÀM TIỆN ÍCH CHO LĨNH VỰC IT
+// CÁC HÀM TIỆN ÍCH
 // ===========================================
 
-// Tổng số lượng việc làm IT
 export const itJobsCount = itJobs.length; // 26 jobs
 
-// Lấy tất cả việc làm IT
 export const getAllItJobs = () => itJobs;
-
-// Lấy việc làm IT theo ID
 export const getItJobById = (id) => itJobs.find(job => job.id === id);
-
-// Lấy việc làm IT theo subCategory
-export const getItJobsBySubCategory = (subCategory) => {
-  return itJobs.filter(job => job.subCategory === subCategory);
-};
-
-// Lấy việc làm IT nổi bật (hot)
+export const getItJobsBySubCategory = (subCategory) => itJobs.filter(job => job.subCategory === subCategory);
 export const getHotItJobs = () => itJobs.filter(job => job.hot === true);
-
-// Lấy việc làm IT featured
 export const getFeaturedItJobs = () => itJobs.filter(job => job.featured === true);
 
-// ===========================================
 // DANH SÁCH THEO SUBCATEGORY
-// ===========================================
-
 export const frontendJobs = itJobs.filter(job => job.subCategory === "frontend");
 export const backendJobs = itJobs.filter(job => job.subCategory === "backend");
 export const fullstackJobs = itJobs.filter(job => job.subCategory === "fullstack");
@@ -847,18 +1050,15 @@ export const aiJobs = itJobs.filter(job => job.subCategory === "ai");
 export const supportJobs = itJobs.filter(job => job.subCategory === "support");
 export const sysadminJobs = itJobs.filter(job => job.subCategory === "sysadmin");
 
-// ===========================================
-// SỐ LƯỢNG THEO SUBCATEGORY
-// ===========================================
-
-export const frontendJobsCount = frontendJobs.length; // 3
-export const backendJobsCount = backendJobs.length; // 3
-export const fullstackJobsCount = fullstackJobs.length; // 2
-export const mobileJobsCount = mobileJobs.length; // 4
-export const uiuxJobsCount = uiuxJobs.length; // 2
-export const qaJobsCount = qaJobs.length; // 2
-export const devopsJobsCount = devopsJobs.length; // 2
-export const dataJobsCount = dataJobs.length; // 2
-export const aiJobsCount = aiJobs.length; // 2
-export const supportJobsCount = supportJobs.length; // 2
-export const sysadminJobsCount = sysadminJobs.length; // 2
+// SỐ LƯỢNG
+export const frontendJobsCount = frontendJobs.length;
+export const backendJobsCount = backendJobs.length;
+export const fullstackJobsCount = fullstackJobs.length;
+export const mobileJobsCount = mobileJobs.length;
+export const uiuxJobsCount = uiuxJobs.length;
+export const qaJobsCount = qaJobs.length;
+export const devopsJobsCount = devopsJobs.length;
+export const dataJobsCount = dataJobs.length;
+export const aiJobsCount = aiJobs.length;
+export const supportJobsCount = supportJobs.length;
+export const sysadminJobsCount = sysadminJobs.length;

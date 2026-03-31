@@ -666,48 +666,25 @@ export const constructionJobs = [
 ];
 
 // ===========================================
-// CÁC HÀM TIỆN ÍCH CHO LĨNH VỰC XÂY DỰNG
+// CÁC HÀM TIỆN ÍCH
 // ===========================================
 
-// Tổng số lượng việc làm Xây dựng
-export const constructionJobsCount = constructionJobs.length; // 22 jobs
+export const constructionJobsCount = constructionJobs.length;
 
-// Lấy tất cả việc làm Xây dựng
 export const getAllConstructionJobs = () => constructionJobs;
-
-// Lấy việc làm Xây dựng theo ID
 export const getConstructionJobById = (id) => constructionJobs.find(job => job.id === id);
-
-// Lấy việc làm Xây dựng theo subCategory
-export const getConstructionJobsBySubCategory = (subCategory) => {
-  return constructionJobs.filter(job => job.subCategory === subCategory);
-};
-
-// Lấy việc làm Xây dựng nổi bật (hot)
+export const getConstructionJobsBySubCategory = (subCategory) => constructionJobs.filter(job => job.subCategory === subCategory);
 export const getHotConstructionJobs = () => constructionJobs.filter(job => job.hot === true);
-
-// Lấy việc làm Xây dựng featured
 export const getFeaturedConstructionJobs = () => constructionJobs.filter(job => job.featured === true);
 
-// ===========================================
 // DANH SÁCH THEO SUBCATEGORY
-// ===========================================
-
-// Nhóm lao động trực tiếp
 export const laborJobs = constructionJobs.filter(job => job.subCategory === "labor");
-// Nhóm hoàn thiện
 export const finishingJobs = constructionJobs.filter(job => job.subCategory === "finishing");
-// Nhóm kỹ thuật
 export const technicalJobs = constructionJobs.filter(job => job.subCategory === "technical");
-// Nhóm hỗ trợ công trình (đổi tên để tránh trùng với IT)
 export const constructionSupportJobs = constructionJobs.filter(job => job.subCategory === "support");
-// Nhóm phụ trợ (đổi tên để tránh trùng với IT)
 export const constructionAdminJobs = constructionJobs.filter(job => job.subCategory === "admin");
 
-// ===========================================
-// SỐ LƯỢNG THEO SUBCATEGORY
-// ===========================================
-
+// SỐ LƯỢNG
 export const laborJobsCount = laborJobs.length;
 export const finishingJobsCount = finishingJobs.length;
 export const technicalJobsCount = technicalJobs.length;

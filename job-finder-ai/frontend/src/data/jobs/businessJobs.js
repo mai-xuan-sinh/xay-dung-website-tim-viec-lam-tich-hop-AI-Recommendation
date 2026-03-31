@@ -1,5 +1,5 @@
 // ===========================================
-// DỮ LIỆU VIỆC LÀM LĨNH VỰC KINH DOANH - PHỔ THÔNG
+// DỮ LIỤU VIỆC LÀM LĨNH VỰC KINH DOANH - PHỔ THÔNG
 // ===========================================
 
 export const businessJobs = [

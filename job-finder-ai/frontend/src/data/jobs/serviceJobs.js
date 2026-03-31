@@ -827,7 +827,7 @@ export const serviceJobs = [
 // ===========================================
 
 // Tổng số lượng việc làm Dịch vụ
-export const serviceJobsCount = serviceJobs.length; // 28 jobs
+export const serviceJobsCount = serviceJobs.length; // 26 jobs
 
 // Lấy tất cả việc làm Dịch vụ
 export const getAllServiceJobs = () => serviceJobs;
