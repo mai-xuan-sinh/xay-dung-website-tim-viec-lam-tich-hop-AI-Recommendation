@@ -27,6 +27,7 @@ import SalaryTrends from './SalaryTrends';
 import SkillDemand from './SkillDemand';
 import FuturePredictions from './FuturePredictions';
 import './TrendsPage.css';
+import trendsbg from '../../assets/banner_chinh.jpg';
 
 const TrendsPage = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -53,27 +54,31 @@ const TrendsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+      {/* Hero Section với background hình ảnh */}
+      <div className="relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${trendsbg})` }}
+        >
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
           <div className="text-center">
             <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 mb-6">
               <TrophyIcon className="h-5 w-5 text-yellow-400 mr-2" />
               <span className="text-sm text-white">Báo cáo thường niên {currentYear}</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
               Thị trường lao động
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
                 Đà Nẵng {currentYear}
               </span>
             </h1>
             
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-200 max-w-3xl mx-auto">
               Phân tích chuyên sâu về xu hướng tuyển dụng, mức lương và kỹ năng hot nhất
               tại thành phố đáng sống nhất Việt Nam
             </p>
@@ -86,7 +91,7 @@ const TrendsPage = () => {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedYear === year
                       ? 'bg-white text-blue-600 shadow-lg'
-                      : 'bg-white/20 text-white hover:bg-white/30'
+                      : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
                   }`}
                 >
                   {year}

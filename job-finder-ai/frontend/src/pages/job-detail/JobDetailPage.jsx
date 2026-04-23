@@ -1,3 +1,4 @@
+// src/pages/job-detail/JobDetailPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -53,18 +54,6 @@ const JobDetailPage = () => {
     };
   };
 
-  // Hàm lấy việc làm tương tự
-  const getSimilarJobs = (currentJob) => {
-    const allJobs = [...itJobs, ...tourismJobs, ...businessJobs, ...constructionJobs, ...serviceJobs];
-    return allJobs
-      .filter(job => 
-        job.id !== currentJob.id && 
-        job.category === currentJob.category &&
-        !job.featured && !job.hot
-      )
-      .slice(0, 5);
-  };
-
   useEffect(() => {
     const fetchJob = async () => {
       setLoading(true);
@@ -79,8 +68,8 @@ const JobDetailPage = () => {
             rating: 4.5 + Math.random() * 0.5,
             ratingCount: Math.floor(Math.random() * 200) + 50,
             isNew: new Date(foundJob.postedDate) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-            companyInfo: getCompanyInfo(foundJob),
-            similarJobs: getSimilarJobs(foundJob)
+            companyInfo: getCompanyInfo(foundJob)
+            // KHÔNG cần similarJobs nữa vì SimilarJobs sẽ tự tính bằng AI
           };
           setJob(enrichedJob);
         } else {
@@ -98,6 +87,7 @@ const JobDetailPage = () => {
 
   const handleSaveJob = () => {
     setIsSaved(!isSaved);
+    // TODO: Gọi API lưu job
   };
 
   const handleApply = () => {
@@ -106,6 +96,9 @@ const JobDetailPage = () => {
 
   const handleSubmitApplication = (formData) => {
     console.log('Application submitted:', formData);
+    // TODO: Gọi API gửi đơn ứng tuyển
+    setIsModalOpen(false);
+    alert('Ứng tuyển thành công! Chúng tôi sẽ liên hệ lại với bạn.');
   };
 
   const handleShare = () => {
@@ -128,16 +121,17 @@ const JobDetailPage = () => {
   const handleReport = () => {
     alert('Cảm ơn bạn đã báo cáo. Chúng tôi sẽ xem xét!');
   };
-  const handleOpenQuiz = () => {
-  setIsQuizOpen(true);
-};
 
-const handleQuizSubmit = async (result) => {
-  console.log('Quiz result:', result);
-  // TODO: Gọi API lưu kết quả bài test
-  // POST /api/quiz/submit
-  // Dữ liệu: { jobId, score, answers, totalQuestions, correctAnswers }
-};
+  const handleOpenQuiz = () => {
+    setIsQuizOpen(true);
+  };
+
+  const handleQuizSubmit = async (result) => {
+    console.log('Quiz result:', result);
+    // TODO: Gọi API lưu kết quả bài test
+    // POST /api/quiz/submit
+    // Dữ liệu: { jobId, score, answers, totalQuestions, correctAnswers }
+  };
 
   if (loading) {
     return (
@@ -195,7 +189,7 @@ const handleQuizSubmit = async (result) => {
             <JobBenefits benefits={job.benefits} />
           </div>
 
-          {/* Cột phải - Thông tin bổ sung - KHÔNG CÓ STICKY */}
+          {/* Cột phải - Thông tin bổ sung */}
           <div className="space-y-6">
             <JobActions
               onApply={handleApply}
@@ -205,10 +199,11 @@ const handleQuizSubmit = async (result) => {
               onReport={handleReport}
               onPrint={handlePrint}
               onQuiz={handleOpenQuiz}
-             hasQuiz={job.hot || job.featured} 
+              hasQuiz={job.hot || job.featured}
             />
             <CompanyInfo company={job.companyInfo} />
-            <SimilarJobs jobs={job.similarJobs} />
+            {/* SimilarJobs - Truyền currentJob để AI tự tính toán */}
+            <SimilarJobs currentJob={job} />
           </div>
         </div>
       </div>
@@ -223,13 +218,12 @@ const handleQuizSubmit = async (result) => {
       />
 
       {/* Modal bài test */}
-         <QuizModal
-          isOpen={isQuizOpen}
-          onClose={() => setIsQuizOpen(false)}
-          job={job}
-          onSubmit={handleQuizSubmit}
-        />
-        
+      <QuizModal
+        isOpen={isQuizOpen}
+        onClose={() => setIsQuizOpen(false)}
+        job={job}
+        onSubmit={handleQuizSubmit}
+      />
     </div>
   );
 };

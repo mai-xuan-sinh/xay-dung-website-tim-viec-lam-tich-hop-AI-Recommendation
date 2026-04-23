@@ -1,3 +1,4 @@
+// frontend/src/services/auth.service.js
 import api from './api';
 
 const AuthService = {
@@ -7,11 +8,12 @@ const AuthService = {
       const response = await api.post('/auth/register', userData);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('user', JSON.stringify(response.data.user));
       }
       return response.data;
     } catch (error) {
-      throw error.response?.data || error.message;
+      console.error('Register error:', error.response?.data || error.message);
+      throw error.response?.data || { message: 'Đăng ký thất bại' };
     }
   },
 
@@ -21,11 +23,12 @@ const AuthService = {
       const response = await api.post('/auth/login', { email, password });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('user', JSON.stringify(response.data.user));
       }
       return response.data;
     } catch (error) {
-      throw error.response?.data || error.message;
+      console.error('Login error:', error.response?.data || error.message);
+      throw error.response?.data || { message: 'Đăng nhập thất bại' };
     }
   },
 

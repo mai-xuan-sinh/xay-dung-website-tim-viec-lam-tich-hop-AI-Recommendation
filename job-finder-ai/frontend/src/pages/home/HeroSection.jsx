@@ -41,7 +41,7 @@ const HeroSection = ({ slides, currentSlide, setCurrentSlide, searchTerm, setSea
           </div>
           
           {/* Title ở góc trên bên phải */}
-          <div className="absolute top-8 right-8 md:top-16 md:right-16 text-white text-right z-10 animate-fade-up">
+          <div className="absolute top-8 right-8 md:top-16 md:right-16 text-white text-right z-10" style={{ animation: 'fadeUp 0.6s ease-out' }}>
             <span className="text-sm uppercase tracking-wider text-blue-300">KHÁM PHÁ</span>
             <h2 className="text-2xl md:text-3xl font-bold mt-1">{slide.title}</h2>
             <p className="text-gray-200 text-sm mt-1">{slide.desc}</p>
@@ -95,61 +95,48 @@ const HeroSection = ({ slides, currentSlide, setCurrentSlide, searchTerm, setSea
             Kết nối với hàng ngàn nhà tuyển dụng hàng đầu. Công việc phù hợp với kỹ năng và đam mê của bạn.
           </p>
 
-          <form onSubmit={handleSearch} className="bg-white rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row gap-2">
+          {/* Form tìm kiếm - Glassmorphism */}
+          <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-2 p-2 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 shadow-xl">
             <div className="flex-1 relative">
-              <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/70" />
               <input
                 type="text"
                 placeholder="Vị trí, kỹ năng, công ty..."
-                className="w-full pl-12 pr-4 py-4 rounded-xl text-gray-900 focus:outline-none"
+                className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex-1 relative">
-              <MapPinIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <MapPinIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/70" />
               <select
                 value={selectedDistrict}
                 onChange={handleLocationChange}
-                className="w-full pl-12 pr-4 py-4 rounded-xl text-gray-900 focus:outline-none appearance-none bg-white cursor-pointer border-none"
+                className="w-full pl-12 pr-10 py-4 rounded-xl bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 appearance-none cursor-pointer"
               >
                 {districts.map((district) => (
-                  <option key={district.value} value={district.value}>
+                  <option key={district.value} value={district.value} className="text-gray-900 bg-white">
                     {district.label}
                   </option>
                 ))}
               </select>
-              {/* Custom dropdown arrow */}
               <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </div>
-            <button type="submit" className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap">
+            <button 
+              type="submit" 
+              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap backdrop-blur-sm"
+            >
               Tìm kiếm
             </button>
           </form>
 
-          <p className="text-sm text-gray-300 mt-4">Ví dụ: React, Marketing, Lễ tân, Kỹ sư xây dựng</p>
+          <p className="text-sm text-white/70 mt-4">Ví dụ: React, Marketing, Lễ tân, Kỹ sư xây dựng</p>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fade-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-up {
-          animation: fade-up 0.6s ease-out;
-        }
-      `}</style>
     </div>
   );
 };

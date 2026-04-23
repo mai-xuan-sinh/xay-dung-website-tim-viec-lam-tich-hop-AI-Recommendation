@@ -1,3 +1,4 @@
+// src/pages/companies/TopCompaniesPage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HomeIcon, SparklesIcon } from '@heroicons/react/24/outline';
@@ -5,6 +6,7 @@ import CompanyCard from './CompanyCard';
 import CompanyFilter from './CompanyFilter';
 import CompanyStats from './CompanyStats';
 import './TopCompaniesPage.css';
+import bannerBg from '../../assets/banner_chinh.jpg';
 
 // Import dữ liệu công ty từ các file jobs
 import { 
@@ -99,8 +101,38 @@ const TopCompaniesPage = () => {
   const stats = getStats();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section với background hình ảnh */}
+      <div className="relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${bannerBg})` }}
+        >
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+          <div className="text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 mb-6">
+              <SparklesIcon className="h-5 w-5 text-yellow-400 mr-2" />
+              <span className="text-sm text-white">Top Công Ty Hàng Đầu Đà Nẵng 2026</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Những Công Ty Hàng Đầu
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+                Tại Đà Nẵng
+              </span>
+            </h1>
+            <p className="text-gray-200 max-w-2xl mx-auto">
+              Khám phá những công ty hàng đầu tại Đà Nẵng trong 5 lĩnh vực, được vinh danh nhờ văn hóa doanh nghiệp xuất sắc, 
+              phúc lợi hấp dẫn và môi trường làm việc chuyên nghiệp.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2 text-sm text-gray-500">
@@ -116,26 +148,6 @@ const TopCompaniesPage = () => {
             <HomeIcon className="h-5 w-5 text-blue-600 group-hover:scale-110 transition-transform" />
             <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600">Quay lại trang chủ</span>
           </Link>
-        </div>
-
-        {/* Banner */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 rounded-2xl mb-8">
-          <div className="relative max-w-7xl mx-auto px-6 py-12 text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-4">
-              <SparklesIcon className="h-4 w-4 text-amber-400 mr-2" />
-              <span className="text-sm text-gray-300">Top Công Ty Hàng Đầu Đà Nẵng 2026</span>
-            </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-              Những Công Ty Hàng Đầu
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">
-                Tại Đà Nẵng
-              </span>
-            </h1>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Khám phá những công ty hàng đầu tại Đà Nẵng trong 5 lĩnh vực, được vinh danh nhờ văn hóa doanh nghiệp xuất sắc, 
-              phúc lợi hấp dẫn và môi trường làm việc chuyên nghiệp.
-            </p>
-          </div>
         </div>
 
         {/* Stats */}

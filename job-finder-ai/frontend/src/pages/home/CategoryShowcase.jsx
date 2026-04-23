@@ -1,15 +1,63 @@
+// src/pages/home/CategoryShowcase.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ComputerDesktopIcon, CameraIcon, ShoppingBagIcon, HomeModernIcon, TruckIcon } from '@heroicons/react/24/outline';
 import { itJobs, tourismJobs, businessJobs, constructionJobs, serviceJobs } from '../../data/jobs';
 
+// Import hình ảnh background cho từng ngành - BẠN CẦN THÊM ẢNH VÀO THƯ MỤC assets/
+import itBg from '../../assets/categories/it-bg.jpg';
+import tourismBg from '../../assets/categories/tourism-bg.webp';
+import businessBg from '../../assets/categories/business-bg.jpg';
+import constructionBg from '../../assets/categories/construction-bg.jpg';
+import serviceBg from '../../assets/categories/service-bg.jpg';
+
 const CategoryShowcase = () => {
   const categories = [
-    { id: 'it', name: 'Công nghệ thông tin', icon: ComputerDesktopIcon, count: itJobs.length, color: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', jobs: ['Frontend', 'Backend', 'DevOps', 'AI'] },
-    { id: 'tourism', name: 'Du lịch - Khách sạn', icon: CameraIcon, count: tourismJobs.length, color: 'from-green-500 to-emerald-500', bg: 'bg-green-50', jobs: ['Hướng dẫn viên', 'Lễ tân', 'Quản lý resort'] },
-    { id: 'business', name: 'Kinh doanh - Bán lẻ', icon: ShoppingBagIcon, count: businessJobs.length, color: 'from-yellow-500 to-orange-500', bg: 'bg-yellow-50', jobs: ['Sales', 'Marketing', 'Quản lý'] },
-    { id: 'construction', name: 'Xây dựng - BĐS', icon: HomeModernIcon, count: constructionJobs.length, color: 'from-orange-500 to-red-500', bg: 'bg-orange-50', jobs: ['Kỹ sư', 'Kiến trúc sư', 'Giám sát'] },
-    { id: 'service', name: 'Dịch vụ - Logistics', icon: TruckIcon, count: serviceJobs.length, color: 'from-purple-500 to-pink-500', bg: 'bg-purple-50', jobs: ['Shipper', 'CSKH', 'Vận hành'] }
+    { 
+      id: 'it', 
+      name: 'Công nghệ thông tin', 
+      icon: ComputerDesktopIcon, 
+      count: itJobs.length, 
+      bgImage: itBg,
+      color: 'from-blue-600 to-cyan-600',
+      jobs: ['Frontend', 'Backend', 'DevOps', 'AI']
+    },
+    { 
+      id: 'tourism', 
+      name: 'Du lịch - Khách sạn', 
+      icon: CameraIcon, 
+      count: tourismJobs.length, 
+      bgImage: tourismBg,
+      color: 'from-green-600 to-emerald-600',
+      jobs: ['Hướng dẫn viên', 'Lễ tân', 'Quản lý resort']
+    },
+    { 
+      id: 'business', 
+      name: 'Kinh doanh - Bán lẻ', 
+      icon: ShoppingBagIcon, 
+      count: businessJobs.length, 
+      bgImage: businessBg,
+      color: 'from-yellow-600 to-orange-600',
+      jobs: ['Sales', 'Marketing', 'Quản lý']
+    },
+    { 
+      id: 'construction', 
+      name: 'Xây dựng - BĐS', 
+      icon: HomeModernIcon, 
+      count: constructionJobs.length, 
+      bgImage: constructionBg,
+      color: 'from-orange-600 to-red-600',
+      jobs: ['Kỹ sư', 'Kiến trúc sư', 'Giám sát']
+    },
+    { 
+      id: 'service', 
+      name: 'Dịch vụ - Logistics', 
+      icon: TruckIcon, 
+      count: serviceJobs.length, 
+      bgImage: serviceBg,
+      color: 'from-purple-600 to-pink-600',
+      jobs: ['Shipper', 'CSKH', 'Vận hành']
+    }
   ];
 
   return (
@@ -26,18 +74,26 @@ const CategoryShowcase = () => {
             <Link
               key={cat.id}
               to={`/jobs?category=${cat.id}`}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+              className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
             >
-              <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${cat.color}`}></div>
-              <div className="p-6 text-center">
-                <div className={`w-16 h-16 mx-auto ${cat.bg} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <cat.icon className={`h-8 w-8 text-${cat.color.split('-')[1]}-600`} />
+              {/* Background Image */}
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{ backgroundImage: `url(${cat.bgImage})` }}
+              />
+              
+              {/* Overlay gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} opacity-80 group-hover:opacity-70 transition-opacity duration-300`}></div>
+              
+              {/* Content */}
+              <div className="relative p-6 text-white z-10">
+                <div className="mb-4">
+                  <cat.icon className="h-10 w-10 text-white drop-shadow-lg" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">{cat.name}</h3>
-                <p className="text-sm text-gray-500">{cat.count} việc làm</p>
-                <div className="mt-4 flex flex-wrap justify-center gap-1">
+                <h3 className="text-xl font-bold mb-1">{cat.name}</h3>
+                <p className="text-sm text-white/80 mb-3">{cat.count} việc làm</p>
+                <div className="flex flex-wrap gap-2">
                   {cat.jobs.map((job, i) => (
-                    <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                    <span key={i} className="text-xs bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
                       {job}
                     </span>
                   ))}

@@ -1,7 +1,7 @@
 // src/pages/support/SupportPage.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HomeIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, LifebuoyIcon } from '@heroicons/react/24/outline';
 import HeroSupport from './components/HeroSupport';
 import ContactChannels from './components/ContactChannels';
 import FAQSection from './components/FAQSection';
@@ -10,6 +10,7 @@ import SupportStats from './components/SupportStats';
 import SystemStatus from './components/SystemStatus';
 import VideoTutorials from './components/VideoTutorials';
 import './SupportPage.css';
+import bannerBg from '../../assets/banner_chinh.jpg';
 
 const SupportPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -41,8 +42,37 @@ const SupportPage = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <HeroSupport />
+      {/* Hero Section với background hình ảnh */}
+      <div className="relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${bannerBg})` }}
+        >
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+          <div className="text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 mb-6">
+              <LifebuoyIcon className="h-5 w-5 text-yellow-400 mr-2" />
+              <span className="text-sm text-white">Hỗ trợ 24/7</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Chúng tôi luôn sẵn sàng
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+                giúp đỡ bạn
+              </span>
+            </h1>
+            
+            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
+              Có bất kỳ câu hỏi hay vấn đề nào? Đội ngũ hỗ trợ của chúng tôi luôn ở đây để giúp bạn 24/7.
+              Hãy liên hệ với chúng tôi qua các kênh bên dưới.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Contact Channels */}
       <ContactChannels />
