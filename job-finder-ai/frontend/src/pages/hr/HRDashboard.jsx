@@ -1,12 +1,14 @@
 // src/pages/hr/HRDashboard.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import io from 'socket.io-client';
 import { 
   BriefcaseIcon, UserGroupIcon, EyeIcon, CheckCircleIcon,
   PlusIcon, DocumentTextIcon, ClockIcon, CalendarIcon,
   ArrowTrendingUpIcon, SparklesIcon, VideoCameraIcon,
-  MapPinIcon, MegaphoneIcon, ShieldCheckIcon, RocketLaunchIcon
+  MapPinIcon, MegaphoneIcon, ShieldCheckIcon, RocketLaunchIcon,
+  BellIcon
 } from '@heroicons/react/24/outline';
 
 // Import banner image
@@ -22,13 +24,12 @@ const HRBanner = () => {
         alt="HR Banner - ĐANANG WORK" 
         className="w-full h-full object-cover absolute inset-0"
       />
-      {/* Lớp phủ gradient để chữ nổi bật */}
+      {/* Lớp phủ gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 via-blue-800/50 to-transparent"></div>
       
       {/* Nội dung banner */}
       <div className="relative z-10 flex flex-col justify-center px-6 md:px-10 py-8 md:py-12">
         <div className="max-w-2xl">
-          {/* Logo nhỏ */}
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
               <span className="text-white font-bold text-lg">ĐW</span>
@@ -36,18 +37,15 @@ const HRBanner = () => {
             <span className="text-white/80 text-sm font-medium">ĐANANG WORK</span>
           </div>
           
-          {/* Title */}
           <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">
             NỀN TẢNG TUYỂN DỤNG <br />
             <span className="text-yellow-400">HÀNG ĐẦU ĐÀ NẴNG</span>
           </h1>
           
-          {/* Description */}
           <p className="text-white/90 text-sm md:text-base mb-4 max-w-xl">
             Kết nối với các nhà tuyển dụng hàng đầu Việt Nam
           </p>
           
-          {/* Stats badges */}
           <div className="flex flex-wrap gap-3 mt-2">
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
               <BriefcaseIcon className="h-4 w-4 text-yellow-400" />
@@ -63,7 +61,6 @@ const HRBanner = () => {
             </div>
           </div>
           
-          {/* Button */}
           <Link
             to="/hr/jobs/create"
             className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-xl font-semibold hover:shadow-lg transition shadow-md hover:scale-105 transform duration-200"
@@ -298,6 +295,48 @@ const HRDashboard = () => {
   const [upcomingInterviews, setUpcomingInterviews] = useState([]);
   const [activeJobs, setActiveJobs] = useState([]);
   const [showAllJobs, setShowAllJobs] = useState(false);
+  const [notification, setNotification] = useState(null);
+  const socketRef = useRef(null);
+
+  // Socket.IO connection
+  useEffect(() => {
+    if (user && user.id) {
+      // Kết nối socket
+      socketRef.current = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
+      
+      // Tham gia room HR
+      socketRef.current.emit('join_hr', user.id);
+      console.log(`📢 HR ${user.id} joined room hr_${user.id}`);
+      
+      // Lắng nghe sự kiện có ứng viên mới
+      socketRef.current.on('new_application', (data) => {
+        console.log('📢 New application received:', data);
+        
+        // Hiển thị thông báo
+        setNotification({
+          message: data.message || `📢 ${data.candidateName} đã ứng tuyển vào vị trí "${data.jobTitle}"`,
+          type: 'success'
+        });
+        
+        // Tự động ẩn sau 5 giây
+        setTimeout(() => setNotification(null), 5000);
+        
+        // Refresh dữ liệu
+        refreshData();
+      });
+      
+      return () => {
+        if (socketRef.current) {
+          socketRef.current.disconnect();
+        }
+      };
+    }
+  }, [user]);
+
+  const refreshData = () => {
+    // TODO: Gọi API để refresh dữ liệu
+    console.log('🔄 Refreshing HR dashboard data...');
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -363,6 +402,22 @@ const HRDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Thông báo */}
+        {notification && (
+          <div className="fixed top-20 right-6 z-50 animate-bounce">
+            <div className="bg-green-500 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
+              <BellIcon className="h-5 w-5" />
+              <span>{notification.message}</span>
+              <button 
+                onClick={() => setNotification(null)}
+                className="ml-2 text-white/80 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
         
         {/* Banner HR */}
         <HRBanner />

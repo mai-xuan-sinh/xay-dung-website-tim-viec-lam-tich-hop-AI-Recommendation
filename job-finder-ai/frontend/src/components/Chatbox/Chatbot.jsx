@@ -1,20 +1,40 @@
 // frontend/src/components/Chatbot/Chatbot.jsx
 import React, { useState, useRef, useEffect } from 'react';
-import { XMarkIcon, PaperAirplaneIcon, SparklesIcon, ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline';
+import { 
+  ChatBubbleOvalLeftEllipsisIcon, XMarkIcon, PaperAirplaneIcon, 
+  SparklesIcon, UserCircleIcon, AcademicCapIcon,
+  BriefcaseIcon, DocumentTextIcon, ChartBarIcon
+} from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../services/api';
-import aiChatbotIcon from '../../assets/ai-chatbot.webp';
+import api, { SOCKET_URL } from '../../services/api';
+import io from 'socket.io-client';
 
 const Chatbot = () => {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Xin chào! Tôi là trợ lý AI của ĐANANG WORK. Tôi có thể giúp gì cho bạn? 😊' }
+    { type: 'bot', text: 'Xin chào! Tôi là trợ lý AI thông minh của ĐANANG WORK. Tôi có thể:\n\n🔍 Gợi ý việc làm phù hợp với kỹ năng của bạn\n📊 Phân tích kỹ năng và đưa ra nhận xét\n📄 Tư vấn viết CV chuyên nghiệp\n🎯 Hướng dẫn phỏng vấn thành công\n📈 Đánh giá cơ hội việc làm của bạn\n\nBạn cần tôi giúp gì hôm nay? 😊' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const socketRef = useRef(null);
+
+  // Socket connection for realtime (optional)
+  useEffect(() => {
+    if (user && !socketRef.current) {
+      socketRef.current = io(SOCKET_URL);
+      socketRef.current.on('connect', () => {
+        console.log('✅ Chatbot socket connected');
+      });
+    }
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, [user]);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -54,7 +74,6 @@ const Chatbot = () => {
     }
   };
 
-  // Câu hỏi gợi ý theo role
   const getQuickQuestions = () => {
     if (user?.role === 'hr') {
       return [
@@ -84,28 +103,23 @@ const Chatbot = () => {
   const quickQuestions = getQuickQuestions();
 
   if (!isOpen) {
-  return (
-    <button
-      onClick={() => setIsOpen(true)}
-      className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 overflow-hidden bg-white p-1"
-    >
-      <img 
-        src={aiChatbotIcon} 
-        alt="AI Chatbot"
-        className="w-full h-full object-cover rounded-full"
-      />
-    </button>
-  );
-}
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-24 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+      >
+        <ChatBubbleOvalLeftEllipsisIcon className="h-7 w-7 text-white" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-50 transition-opacity blur-md"></div>
+      </button>
+    );
+  }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-[450px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
+    <div className="fixed bottom-24 right-6 z-50 w-[450px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-            <SparklesIcon className="h-5 w-5 text-yellow-400" />
-          </div>
+          <SparklesIcon className="h-5 w-5 text-yellow-400" />
           <span className="text-white font-semibold">AI Trợ lý thông minh</span>
           <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">Beta</span>
           {user?.role === 'hr' && <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">HR</span>}

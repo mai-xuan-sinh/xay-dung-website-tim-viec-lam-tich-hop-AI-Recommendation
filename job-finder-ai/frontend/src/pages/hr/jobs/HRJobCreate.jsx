@@ -1,5 +1,5 @@
 // src/pages/hr/jobs/HRJobCreate.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeftIcon, PlusIcon, TrashIcon, 
@@ -9,6 +9,7 @@ import {
   EyeIcon, CreditCardIcon
 } from '@heroicons/react/24/outline';
 import PaymentModal from './components/PaymentModal';
+import api from '../../../services/api';
 
 const HRJobCreate = () => {
   const navigate = useNavigate();
@@ -17,6 +18,28 @@ const HRJobCreate = () => {
   const [previewMode, setPreviewMode] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   
+  // Danh sách công ty có sẵn
+  const [availableCompanies, setAvailableCompanies] = useState([
+    'FPT Software',
+    'Axon Active',
+    'TMA Solutions',
+    'GAMELOFT',
+    'Viettel',
+    'VinAI',
+    'OX Consulting',
+    'DesignBold',
+    'Furama Resort',
+    'Novotel Đà Nẵng',
+    'Thế Giới Di Động',
+    'CellphoneS',
+    'Coteccons',
+    'ĐANANG WORK - Hệ thống'
+  ]);
+  
+  const [selectedCompany, setSelectedCompany] = useState('');
+  const [isNewCompany, setIsNewCompany] = useState(false);
+  const [newCompanyName, setNewCompanyName] = useState('');
+
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -33,7 +56,7 @@ const HRJobCreate = () => {
     deadline: '',
     isHot: false,
     isFeatured: false,
-    quizEnabled: false,  // Mặc định tắt quiz
+    quizEnabled: false,
     quizTimeLimit: 300,
     quizPassingScore: 60
   });
@@ -86,7 +109,6 @@ const HRJobCreate = () => {
     setFormData(prev => ({ ...prev, [field]: newArray }));
   };
 
-  // Quiz functions
   const addQuestion = () => {
     setQuizQuestions(prev => [...prev, {
       id: prev.length + 1,
@@ -117,8 +139,12 @@ const HRJobCreate = () => {
   const handlePaymentSuccess = (selectedPackage) => {
     setLoading(true);
     
+    // Xác định tên công ty cuối cùng
+    const finalCompanyName = isNewCompany ? newCompanyName : selectedCompany;
+    
     const jobData = {
       ...formData,
+      company: finalCompanyName,
       quizQuestions: formData.quizEnabled ? quizQuestions.filter(q => q.text.trim() !== '') : [],
       postedDate: new Date().toISOString().split('T')[0],
       status: 'active',
@@ -128,7 +154,9 @@ const HRJobCreate = () => {
     };
     
     console.log('Job Data with Package:', jobData);
-    alert(`Thanh toán thành công! Bạn đã đăng ký ${selectedPackage.name} với giá ${selectedPackage.price.toLocaleString()}đ trong ${selectedPackage.days} ngày.`);
+    
+    // TODO: Gọi API tạo job
+    alert(`Đăng tin thành công! Bạn đã đăng ký ${selectedPackage.name} với giá ${selectedPackage.price.toLocaleString()}đ trong ${selectedPackage.days} ngày.`);
     
     setLoading(false);
     setShowPaymentModal(false);
@@ -142,14 +170,6 @@ const HRJobCreate = () => {
 
   const isBasicValid = () => {
     return formData.title && formData.category && formData.location;
-  };
-
-  const isQuizValid = () => {
-    if (!formData.quizEnabled) return true;
-    return quizQuestions.every(q => 
-      q.text.trim() !== '' && 
-      q.options.every(opt => opt.trim() !== '')
-    );
   };
 
   return (
@@ -171,7 +191,6 @@ const HRJobCreate = () => {
         </div>
 
         {previewMode ? (
-          // Preview Mode
           <div className="bg-white rounded-2xl shadow-sm p-6">
             <div className="border-b border-gray-200 pb-4 mb-4">
               <h1 className="text-2xl font-bold text-gray-900">{formData.title || 'Tiêu đề tin tuyển dụng'}</h1>
@@ -197,15 +216,12 @@ const HRJobCreate = () => {
             </div>
           </div>
         ) : (
-          // Edit Mode
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-6">
               <h1 className="text-2xl font-bold text-white">Đăng tin tuyển dụng</h1>
               <p className="text-blue-100 mt-1">Điền thông tin chi tiết về vị trí cần tuyển</p>
             </div>
 
-            {/* Tabs */}
             <div className="flex border-b border-gray-200 px-6">
               <button
                 onClick={() => setActiveTab('basic')}
@@ -232,7 +248,6 @@ const HRJobCreate = () => {
             </div>
 
             <form onSubmit={(e) => e.preventDefault()}>
-              {/* Tab 1: Basic Information */}
               {activeTab === 'basic' && (
                 <div className="p-6 space-y-8">
                   {/* Thông tin cơ bản */}
@@ -254,6 +269,59 @@ const HRJobCreate = () => {
                           placeholder="Ví dụ: Frontend Developer (React)"
                         />
                       </div>
+                      
+                      {/* Chọn công ty */}
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Công ty <span className="text-red-500">*</span>
+                        </label>
+                        <div className="flex gap-2 mb-2">
+                          <button
+                            type="button"
+                            onClick={() => setIsNewCompany(false)}
+                            className={`px-3 py-1 rounded-lg text-sm ${!isNewCompany ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                          >
+                            Chọn công ty có sẵn
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setIsNewCompany(true)}
+                            className={`px-3 py-1 rounded-lg text-sm ${isNewCompany ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                          >
+                            Nhập công ty mới
+                          </button>
+                        </div>
+                        
+                        {!isNewCompany ? (
+                          <select
+                            value={selectedCompany}
+                            onChange={(e) => {
+                              setSelectedCompany(e.target.value);
+                              setFormData(prev => ({ ...prev, company: e.target.value }));
+                            }}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            required
+                          >
+                            <option value="">-- Chọn công ty --</option>
+                            {availableCompanies.map((company, idx) => (
+                              <option key={idx} value={company}>{company}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            type="text"
+                            value={newCompanyName}
+                            onChange={(e) => {
+                              setNewCompanyName(e.target.value);
+                              setFormData(prev => ({ ...prev, company: e.target.value }));
+                            }}
+                            placeholder="Nhập tên công ty mới"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            required
+                          />
+                        )}
+                      </div>
+                      
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Ngành nghề *</label>
                         <select 
@@ -512,7 +580,7 @@ const HRJobCreate = () => {
                     </label>
                   </div>
 
-                  {/* Quiz Settings - Tùy chọn */}
+                  {/* Quiz Settings */}
                   <div className="bg-blue-50 rounded-xl p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
@@ -529,11 +597,9 @@ const HRJobCreate = () => {
                           formData.quizEnabled ? 'bg-blue-600' : 'bg-gray-300'
                         }`}
                       >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            formData.quizEnabled ? 'translate-x-6' : 'translate-x-1'
-                          }`}
-                        />
+                        <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          formData.quizEnabled ? 'translate-x-6' : 'translate-x-1'
+                        }`} />
                       </button>
                     </div>
                     
@@ -571,7 +637,6 @@ const HRJobCreate = () => {
                 </div>
               )}
 
-              {/* Tab 2: Quiz Questions - Chỉ hiển thị khi bật quiz */}
               {activeTab === 'quiz' && (
                 <div className="p-6 space-y-6">
                   {!formData.quizEnabled ? (
@@ -727,7 +792,6 @@ const HRJobCreate = () => {
         )}
       </div>
 
-      {/* Payment Modal */}
       <PaymentModal
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}

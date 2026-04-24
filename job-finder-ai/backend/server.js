@@ -21,13 +21,13 @@ const applicationRoutes = require('./routes/application.routes');
 const aiRoutes = require('./routes/ai.routes');
 const chatRoutes = require('./routes/chat.routes');
 const adminRoutes = require('./routes/admin.routes');
-const messageRoutes = require('./routes/message.routes'); // ✅ THÊM ROUTE MESSAGE
+const messageRoutes = require('./routes/message.routes'); 
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: '*',  // Cho phép tất cả các nguồn
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }
@@ -46,11 +46,15 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 app.use(compression());
+
+// CORS - Cho phép tất cả các nguồn truy cập
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: '*',
   credentials: true,
-  optionsSuccessStatus: 200
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(morgan('dev'));
@@ -67,7 +71,7 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/messages', messageRoutes); // ✅ THÊM ROUTE MESSAGE
+app.use('/api/messages', messageRoutes); 
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -129,67 +133,90 @@ io.on('connection', (socket) => {
     }
   });
   
-  // ✅ Xử lý tin nhắn realtime
+  // Xử lý tin nhắn realtime
   socket.on('send_support_message', async (data) => {
-    const { userId, message, userName, userRole } = data;
-    
-    // Lưu tin nhắn vào database
-    const Message = require('./models/Message');
-    const newMessage = await Message.create({
-      senderId: userId,
-      senderName: userName,
-      senderRole: userRole,
-      receiverRole: 'admin',
-      message: message,
-      isRead: false
-    });
-    
-    // Gửi tin nhắn đến admin
-    io.emit('new_support_message', {
-      id: newMessage._id,
-      senderName: userName,
-      message: message,
-      createdAt: newMessage.createdAt
-    });
-    
-    console.log(`💬 New support message from ${userName}: ${message.substring(0, 50)}`);
+    try {
+      const { userId, message, userName, userRole } = data;
+      
+      // Lưu tin nhắn vào database
+      const Message = require('./models/Message');
+      const newMessage = await Message.create({
+        senderId: userId,
+        senderName: userName,
+        senderRole: userRole,
+        receiverRole: 'admin',
+        message: message,
+        isRead: false
+      });
+      
+      // Gửi tin nhắn đến admin
+      io.emit('new_support_message', {
+        id: newMessage._id,
+        senderName: userName,
+        message: message,
+        createdAt: newMessage.createdAt
+      });
+      
+      console.log(`💬 New support message from ${userName}: ${message.substring(0, 50)}`);
+    } catch (error) {
+      console.error('Error sending support message:', error);
+    }
   });
   
-  // ✅ Admin trả lời tin nhắn realtime
+  // Admin trả lời tin nhắn realtime
   socket.on('send_admin_reply', async (data) => {
-    const { userId, message, adminName, originalMessageId } = data;
-    
-    // Lưu tin nhắn reply vào database
-    const Message = require('./models/Message');
-    const replyMessage = await Message.create({
-      senderId: 'admin',
-      senderName: adminName,
-      senderRole: 'admin',
-      receiverId: userId,
-      receiverRole: 'user',
-      message: message,
-      replyTo: originalMessageId,
-      isRead: false
-    });
-    
-    // Đánh dấu tin nhắn gốc đã được trả lời
-    await Message.findByIdAndUpdate(originalMessageId, { isReplied: true });
-    
-    // Gửi phản hồi đến user
-    io.to(`user_${userId}`).emit('admin_reply', {
-      id: replyMessage._id,
-      message: message,
-      originalMessageId: originalMessageId,
-      createdAt: replyMessage.createdAt
-    });
-    
-    console.log(`💬 Admin replied to user ${userId}: ${message.substring(0, 50)}`);
+    try {
+      const { userId, message, adminName, originalMessageId } = data;
+      
+      // Lưu tin nhắn reply vào database
+      const Message = require('./models/Message');
+      const replyMessage = await Message.create({
+        senderId: 'admin',
+        senderName: adminName,
+        senderRole: 'admin',
+        receiverId: userId,
+        receiverRole: 'user',
+        message: message,
+        replyTo: originalMessageId,
+        isRead: false
+      });
+      
+      // Đánh dấu tin nhắn gốc đã được trả lời
+      await Message.findByIdAndUpdate(originalMessageId, { isReplied: true });
+      
+      // Gửi phản hồi đến user
+      io.to(`user_${userId}`).emit('admin_reply', {
+        id: replyMessage._id,
+        message: message,
+        originalMessageId: originalMessageId,
+        createdAt: replyMessage.createdAt
+      });
+      
+      console.log(`💬 Admin replied to user ${userId}: ${message.substring(0, 50)}`);
+    } catch (error) {
+      console.error('Error sending admin reply:', error);
+    }
+  });
+  
+  // Test event để kiểm tra kết nối
+  socket.on('ping', () => {
+    socket.emit('pong');
+    console.log('🏓 Ping/Pong test');
   });
   
   socket.on('disconnect', () => {
     console.log('🔌 Client disconnected:', socket.id);
   });
 });
+
+// Log all connected rooms periodically (for debugging)
+setInterval(() => {
+  const rooms = io.sockets.adapter.rooms;
+  const hrRooms = Array.from(rooms.keys()).filter(room => room.startsWith('hr_'));
+  if (hrRooms.length > 0) {
+    console.log(`📊 Active HR rooms: ${hrRooms.join(', ')}`);
+  }
+}, 30000); // Mỗi 30 giây log 1 lần
 
 // ========== ERROR HANDLERS ==========
 

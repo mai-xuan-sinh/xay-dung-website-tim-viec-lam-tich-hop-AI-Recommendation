@@ -5,7 +5,7 @@ import {
   UserIcon, CheckCircleIcon, ClockIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../services/api';
+import api, { SOCKET_URL } from '../../services/api';
 import io from 'socket.io-client';
 
 const SupportChat = () => {
@@ -20,9 +20,17 @@ const SupportChat = () => {
 
   // Kết nối socket
   useEffect(() => {
-    if (user && socketRef.current === null) {
-      socketRef.current = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
-      socketRef.current.emit('join', user.id);
+    if (user && !socketRef.current) {
+      socketRef.current = io(SOCKET_URL);
+      
+      socketRef.current.on('connect', () => {
+        console.log('✅ SupportChat socket connected');
+        socketRef.current.emit('join', user.id);
+      });
+      
+      socketRef.current.on('connect_error', (error) => {
+        console.error('❌ SupportChat socket error:', error.message);
+      });
       
       socketRef.current.on('admin_reply', (data) => {
         setMessages(prev => [...prev, {
@@ -106,20 +114,20 @@ const SupportChat = () => {
   };
 
   if (!isOpen) {
-  return (
-    <button
-      onClick={() => setIsOpen(true)}
-      className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-green-500 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
-    >
-      <ChatBubbleLeftRightIcon className="h-6 w-6 text-white" />
-      {unreadCount > 0 && (
-        <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full animate-pulse">
-          {unreadCount > 9 ? '9+' : unreadCount}
-        </span>
-      )}
-    </button>
-  );
-}
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-green-500 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+      >
+        <ChatBubbleLeftRightIcon className="h-6 w-6 text-white" />
+        {unreadCount > 0 && (
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full animate-pulse">
+            {unreadCount > 9 ? '9+' : unreadCount}
+          </span>
+        )}
+      </button>
+    );
+  }
 
   return (
     <div className="fixed bottom-24 right-6 z-50 w-[400px] h-[550px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden">
